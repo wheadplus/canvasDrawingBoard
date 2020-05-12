@@ -1,14 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <link rel="stylesheet" type="text/css" href="./style.css">
 </head>
+
 <body>
   <canvas id='canvas'></canvas>
-  <button id='eraser'>橡皮擦</button>
+ 
+  <div class="actions">
+    <svg id='pen' class="icon  active" aria-hidden="true">
+      <use xlink:href="#icon-pen"></use>
+    </svg>
+    <svg id='eraser' class="icon eraser" aria-hidden="true">
+      <use xlink:href="#icon-eraser-ps"></use>
+    </svg>
+  </div>
+  <ul class="colors">
+    <li id='red' class="active"></li>
+    <li id='blue' ></li>
+    <li id='green' ></li>
+  </ul>
 </body>
-  <script src="main.js"></script>
+<script src="main.js"></script>
+<script src="./iconfont.js"></script>
+
 </html>

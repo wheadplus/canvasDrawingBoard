@@ -123,14 +123,12 @@ function listenToMouse() {
 
 function drawCircle(x, y, radius) {
   ctx.beginPath()
-  ctx.fillStyle = 'black'
   ctx.arc(x, y, radius, 0, Math.PI * 2)
   ctx.fill()
 }
 
 function drawLine(x1, y1, x2, y2) {
   ctx.beginPath()
-  ctx.strokeStyle = 'black'
   ctx.moveTo(x1, y1) // 起点
   ctx.lineWidth = 5
   ctx.lineTo(x2, y2) // 终点
@@ -138,6 +136,34 @@ function drawLine(x1, y1, x2, y2) {
   ctx.closePath()
 }
 
+pen.onclick = () => {
+  pen.classList.add('active')
+  eraser.classList.remove('active')
+}
 eraser.onclick = () => {
   eraserEnabled = !eraserEnabled
+  eraser.classList.add('active') 
+  pen.classList.remove('active')
+}
+
+red.onclick = () => {
+  ctx.fillStyle = 'red'
+  ctx.strokeStyle = 'red'
+  red.classList.add('active') 
+  blue.classList.remove('active')
+  green.classList.remove('active')
+}
+blue.onclick = () => {
+  ctx.fillStyle = 'blue'
+  ctx.strokeStyle = 'blue'
+  blue.classList.add('active') 
+  red.classList.remove('active')
+  green.classList.remove('active')
+}
+green.onclick = () => {
+  ctx.fillStyle = 'green'
+  ctx.strokeStyle = 'green'
+  green.classList.add('active') 
+  blue.classList.remove('active')
+  red.classList.remove('active')
 }

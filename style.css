@@ -3,13 +3,60 @@
   padding: 0;
   box-sizing: border-box;
 }
+ul {
+  list-style: none;
+}
+.icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
+
 #canvas {
   background: pink;
 }
 
-#eraser {
+.actions {
   position: absolute;
-  bottom: 0;
+  top: 0;
   left: 0;
-  padding：10px;
+  padding: 10px;
+}
+.actions .icon {
+  margin: 0 10px;
+  transition: all .3s;
+  font-size: 20px;
+}
+.actions .icon.active {
+  fill: red;
+  transform: scale(1.5);
+}
+
+.colors {
+  position: fixed;
+  top: 40px;
+  left: 20px;
+}
+.colors > li {
+  width: 20px;
+  height: 20px;
+  box-shadow: 0 0 3px rgba(0, 0, 0, .25);
+  border-radius: 50%;
+  margin: 10px 0;
+  transition: all .3s;
+}
+.colors > li#red {
+  background-color: red;
+}
+.colors > li#green {
+  background-color: green;
+}
+.colors > li#blue {
+  background-color: blue;
+}
+.colors > li.active {
+  box-shadow: 0 0 3px rgba(0, 0, 0, .6  );
+  transform: scale(1.5);
 }
