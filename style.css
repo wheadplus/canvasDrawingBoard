@@ -1,0 +1,15 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+#canvas {
+  background: pink;
+}
+
+#eraser {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding：10px;
+}
