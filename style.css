@@ -13,13 +13,19 @@ ul {
   fill: currentColor;
   overflow: hidden;
 }
-
+body {
+  overflow: hidden;
+}
 #canvas {
-  background: pink;
+  background-color: #fff;
+  position: fixed;
+  display: block;
+  top:0;
+  left: 0;
 }
 
 .actions {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   padding: 10px;
@@ -27,17 +33,43 @@ ul {
 .actions .icon {
   margin: 0 10px;
   transition: all .3s;
-  font-size: 20px;
+  font-size: 26px;
+  padding: 5px;
 }
 .actions .icon.active {
-  fill: red;
+  /* fill: red; */
+  border: 1px solid #777;
+  border-radius: 13%;
   transform: scale(1.5);
 }
-
+.penSizes {
+  position: fixed;
+  top: 0;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+}
+.penSizes li {
+  width: 20px;
+  height: 10px;
+  background-color: black;
+  margin-top: 12px;
+  transition: all .3s;
+}
+.penSizes li:first-of-type{
+  height: 5px;
+}
+.penSizes li:last-of-type{
+  height: 15px;
+}
+.penSizes li.active {
+  box-shadow: 0 0 3px rgba(0, 0, 0, .6  );
+  transform: scale(1.2);
+}
 .colors {
   position: fixed;
-  top: 40px;
-  left: 20px;
+  top: 70px;
+  right: 10px;
 }
 .colors > li {
   width: 20px;
@@ -56,7 +88,10 @@ ul {
 .colors > li#blue {
   background-color: blue;
 }
+.colors > li#black {
+  background-color: black;
+}
 .colors > li.active {
   box-shadow: 0 0 3px rgba(0, 0, 0, .6  );
-  transform: scale(1.5);
+  transform: scale(1.2);
 }

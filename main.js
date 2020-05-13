@@ -6,8 +6,9 @@ var lastPoint = {
   x: undefined,
   y: undefined
 }
-
+var canvasLineWidth = 5,fillStyle = 'black'
 autoSetCanvasSize()
+initCanvasBgColor()
 listenToMouse()
 
 function autoSetCanvasSize() {
@@ -38,13 +39,13 @@ function listenToMouse() {
         clientX, clientY
       } = e.touches[0]
       if (eraserEnabled) {
-        ctx.clearRect(clientX - 5, clientY - 5, 10, 10)
+        ctx.clearRect(clientX - canvasLineWidth, clientY - canvasLineWidth, canvasLineWidth*2, canvasLineWidth*2)
       } else {
         lastPoint = {
           x: clientX,
           y: clientY
         }
-        drawCircle(clientX, clientY, 2)
+        drawCircle(clientX, clientY)
       }
     }
     // 触屏边摸边动
@@ -56,13 +57,13 @@ function listenToMouse() {
         clientX, clientY
       } = e.touches[0]
       if (eraserEnabled) {
-        ctx.clearRect(clientX - 5, clientY - 5, 10, 10)
+        ctx.clearRect(clientX - canvasLineWidth, clientY - canvasLineWidth, canvasLineWidth*2, canvasLineWidth*2)
       } else {
         let newPoint = {
           x: clientX,
           y: clientY
         }
-        drawCircle(clientX, clientY, 2)
+        drawCircle(clientX, clientY)
         drawLine(lastPoint.x, lastPoint.y, newPoint.x, newPoint.y)
         lastPoint = newPoint
       }
@@ -80,13 +81,13 @@ function listenToMouse() {
         clientX, clientY
       } = e
       if (eraserEnabled) {
-        ctx.clearRect(clientX - 5, clientY - 5, 10, 10)
+        ctx.clearRect(clientX - canvasLineWidth, clientY - canvasLineWidth, canvasLineWidth*2, canvasLineWidth*2)
       } else {
         lastPoint = {
           x: clientX,
           y: clientY
         }
-        drawCircle(clientX, clientY, 2)
+        drawCircle(clientX, clientY)
       }
     }
     // 移动鼠标
@@ -98,13 +99,13 @@ function listenToMouse() {
         clientX, clientY
       } = e
       if (eraserEnabled) {
-        ctx.clearRect(clientX - 5, clientY - 5, 10, 10)
+        ctx.clearRect(clientX - canvasLineWidth, clientY - canvasLineWidth, canvasLineWidth*2, canvasLineWidth*2)
       } else {
         let newPoint = {
           x: clientX,
           y: clientY
         }
-        drawCircle(clientX, clientY, 2)
+        drawCircle(clientX, clientY)
         drawLine(lastPoint.x, lastPoint.y, newPoint.x, newPoint.y)
         lastPoint = newPoint
       }
@@ -121,49 +122,88 @@ function listenToMouse() {
 }
 
 
-function drawCircle(x, y, radius) {
+function drawCircle(x, y) {
   ctx.beginPath()
-  ctx.arc(x, y, radius, 0, Math.PI * 2)
+  ctx.fillStyle = fillStyle
+  ctx.arc(x, y, canvasLineWidth / 2 , 0, Math.PI * 2)
   ctx.fill()
 }
 
 function drawLine(x1, y1, x2, y2) {
   ctx.beginPath()
+  ctx.strokeStyle = fillStyle
   ctx.moveTo(x1, y1) // 起点
-  ctx.lineWidth = 5
+  ctx.lineWidth = canvasLineWidth
   ctx.lineTo(x2, y2) // 终点
   ctx.stroke()
   ctx.closePath()
 }
-
+//
 pen.onclick = () => {
-  pen.classList.add('active')
-  eraser.classList.remove('active')
+  eraserEnabled = false
+  changeActived(pen,[eraser])
 }
 eraser.onclick = () => {
   eraserEnabled = !eraserEnabled
-  eraser.classList.add('active') 
-  pen.classList.remove('active')
+  changeActived(eraser,[pen])
 }
-
+//清除canvas全屏
+clear.onclick = () => {
+  ctx.clearRect(0,0,canvas.width,canvas.height)
+  initCanvasBgColor()
+}
+//保存canvas
+save.onclick = () => {
+  var url = canvas.toDataURL('image/png')
+  console.log(url)
+  var a = document.createElement('a')
+  document.body.append(a)
+  a.href = url
+  a.download = '你的作品'
+  a.click()
+}
+// 改变画板颜色
 red.onclick = () => {
-  ctx.fillStyle = 'red'
-  ctx.strokeStyle = 'red'
-  red.classList.add('active') 
-  blue.classList.remove('active')
-  green.classList.remove('active')
+  fillStyle='red'
+  changeActived(red,[blue,green,black])
 }
 blue.onclick = () => {
-  ctx.fillStyle = 'blue'
-  ctx.strokeStyle = 'blue'
-  blue.classList.add('active') 
-  red.classList.remove('active')
-  green.classList.remove('active')
+  fillStyle = 'blue'
+  changeActived(blue,[green,red,black])
+}
+black.onclick = () => {
+  fillStyle = 'black'
+  changeActived(black,[green,red,blue])
 }
 green.onclick = () => {
-  ctx.fillStyle = 'green'
-  ctx.strokeStyle = 'green'
-  green.classList.add('active') 
-  blue.classList.remove('active')
-  red.classList.remove('active')
+  fillStyle='green'
+  changeActived(green,[blue,red,black])
+}
+// 改变画板size
+small.onclick = () =>  {
+  canvasLineWidth = 5
+  changeActived(small,[normal,large])
+}
+normal.onclick = () =>  {
+  canvasLineWidth = 10
+  changeActived(normal,[small,large])
+}
+large.onclick = () =>  {
+  canvasLineWidth = 15
+  changeActived(large,[small,normal])
+}
+
+//背景白色
+function initCanvasBgColor() {
+  let beforeFillStyle = fillStyle
+  ctx.fillStyle = '#fff'
+  ctx.fillRect(0,0,canvas.width,canvas.height)
+  ctx.fillStyle = beforeFillStyle
+}
+//
+function changeActived(addActived,removeActivedList) {
+  addActived.classList.add('active') 
+  removeActivedList.forEach(el => {
+    el.classList.remove('active')
+  })
 }
